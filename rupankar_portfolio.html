@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rupankar – Designer & Video Editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --black: #080808;
+    --white: #ffffff;
+    --gray: #888;
+    --light: #f4f4f0;
+    --accent: #c8ff00;
+    --card-bg: #141414;
+    --border: rgba(255,255,255,0.08);
+  }
+  body { font-family: 'Inter', sans-serif; background: var(--black); color: var(--white); overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+
+  /* NAV */
+  nav { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 100;
+    background: rgba(10,10,10,0.85); backdrop-filter: blur(12px);
+    border: 1px solid var(--border); border-radius: 50px;
+    padding: 10px 24px; display: flex; gap: 8px; align-items: center; }
+  nav a { font-size: 13px; color: #aaa; padding: 6px 14px; border-radius: 20px; transition: all .2s; }
+  nav a:hover { color: var(--white); background: rgba(255,255,255,0.08); }
+  .nav-cta { background: var(--accent) !important; color: var(--black) !important; font-weight: 600; }
+
+  /* ═══════════════════════════════════
+     HERO — 3D Carousel Style
+     ═══════════════════════════════════ */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+    padding: 140px 20px 0;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(30,30,40,0.7), var(--black));
+  }
+
+  .hero h1 {
+    font-size: clamp(36px, 6vw, 80px);
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 1.05;
+    margin-bottom: 20px;
+    color: var(--white);
+  }
+
+  .hero-quote {
+    font-size: clamp(13px, 1.5vw, 16px);
+    color: #999;
+    max-width: 480px;
+    line-height: 1.7;
+    margin-bottom: 32px;
+    font-style: italic;
+  }
+
+  .hero-quote::before { content: '\201C'; }
+  .hero-quote::after  { content: '\201D'; }
+
+  .btn-reach-out {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 32px;
+    border: 1.5px solid rgba(255,255,255,0.25);
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--white);
+    background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(8px);
+    transition: all .3s ease;
+    cursor: pointer;
+    margin-bottom: 60px;
+  }
+  .btn-reach-out:hover {
+    border-color: rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(255,255,255,0.06);
+  }
+
+  /* ── 3D Carousel Container ── */
+  .hero-carousel-wrapper {
+    width: 100%;
+    position: relative;
+    perspective: 1200px;
+    margin-top: auto;
+    padding-bottom: 40px;
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+  }
+
+  .hero-carousel-track {
+    display: flex;
+    gap: 24px;
+    width: max-content;
+    animation: carousel-scroll 30s linear infinite;
+    padding: 40px 0;
+    transform: rotateX(5deg);
+    transform-style: preserve-3d;
+  }
+
+  .hero-carousel-track:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes carousel-scroll {
+    0% { transform: rotateX(5deg) translateX(0); }
+    100% { transform: rotateX(5deg) translateX(-50%); }
+  }
+
+  .carousel-card {
+    flex-shrink: 0;
+    width: 280px;
+    height: 340px;
+    border-radius: 18px;
+    overflow: hidden;
+    position: relative;
+    background: #1a1a1a;
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow:
+      0 20px 60px rgba(0,0,0,0.5),
+      0 0 0 1px rgba(255,255,255,0.03) inset;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    transform: rotateY(-3deg);
+    transform-style: preserve-3d;
+    cursor: pointer;
+  }
+
+  .carousel-card:nth-child(even) {
+    transform: rotateY(3deg) translateY(-10px);
+  }
+
+  .carousel-card:hover {
+    transform: rotateY(0deg) translateY(-16px) scale(1.04);
+    box-shadow:
+      0 30px 80px rgba(0,0,0,0.6),
+      0 0 40px rgba(200,255,0,0.05),
+      0 0 0 1px rgba(255,255,255,0.08) inset;
+  }
+
+  /* Card placeholder content */
+  .carousel-card-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 24px;
+    position: relative;
+  }
+
+  /* If the user drops an image in, it fills the card */
+  .carousel-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    inset: 0;
+  }
+
+  /* Gradient overlay on cards */
+  .carousel-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.6) 100%);
+    pointer-events: none;
+    z-index: 1;
+    border-radius: 18px;
+  }
+
+  .carousel-card-label {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    z-index: 2;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.85);
+    text-align: left;
+  }
+
+  .carousel-card-tag {
+    display: inline-block;
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: rgba(200,255,0,0.15);
+    color: var(--accent);
+    border: 1px solid rgba(200,255,0,0.2);
+    margin-bottom: 6px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* Placeholder gradient fill for cards without images */
+  .card-gradient-1 { background: linear-gradient(145deg, #1a2a1a 0%, #2d4a1a 50%, #8a7530 100%); }
+  .card-gradient-2 { background: linear-gradient(145deg, #0a1a0a 0%, #0d2d0d 50%, #1a4a2a 100%); }
+  .card-gradient-3 { background: linear-gradient(145deg, #1a1a2a 0%, #2a1a3a 50%, #3d2a5a 100%); }
+  .card-gradient-4 { background: linear-gradient(145deg, #2a1a0a 0%, #3a2a1a 50%, #5a3a1a 100%); }
+  .card-gradient-5 { background: linear-gradient(145deg, #0a1a2a 0%, #1a2a3a 50%, #2a3a5a 100%); }
+  .card-gradient-6 { background: linear-gradient(145deg, #1a0a1a 0%, #2a1a2a 50%, #4a2a3a 100%); }
+
+  /* Glow effect at bottom of hero */
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 200px;
+    background: radial-gradient(ellipse, rgba(200,255,0,0.03), transparent 70%);
+    pointer-events: none;
+  }
+
+  /* ── Responsive hero ── */
+  @media (max-width: 768px) {
+    .hero { padding: 120px 16px 0; }
+    .hero h1 { letter-spacing: -1px; }
+    .carousel-card { width: 200px; height: 260px; }
+    .hero-carousel-track { gap: 16px; }
+    .btn-reach-out { margin-bottom: 40px; }
+  }
+
+  /* SECTION */
+  section { padding: 100px 20px; max-width: 1000px; margin: 0 auto; }
+  .section-label { display: inline-block; font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+    color: #555; border: 1px solid #222; border-radius: 20px; padding: 5px 14px; margin-bottom: 20px; }
+  h2 { font-size: clamp(32px, 5vw, 52px); font-weight: 700; letter-spacing: -2px; line-height: 1.05; margin-bottom: 16px; }
+  .muted-text { color: #555; }
+
+  /* PROJECTS */
+  .projects-grid { display: grid; grid-template-columns: 1fr; gap: 2px; margin-top: 48px; }
+  .project-card { background: var(--card-bg); border-radius: 20px; overflow: hidden; position: relative;
+    aspect-ratio: 16/9; cursor: pointer; transition: transform .3s; }
+  .project-card:hover { transform: scale(1.01); }
+  .project-thumb { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .project-thumb-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; background: #1a1a1a; gap: 12px; }
+  .thumb-icon { font-size: 40px; opacity: .3; }
+  .thumb-label { font-size: 13px; color: #444; font-family: monospace; }
+  .project-overlay { position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,.9)); padding: 40px 24px 24px; }
+  .project-title { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+  .project-desc { font-size: 13px; color: #888; }
+  .project-tag { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 20px;
+    background: rgba(200,255,0,0.15); color: var(--accent); border: 1px solid rgba(200,255,0,0.2); margin-top: 8px; }
+
+  /* TESTIMONIALS */
+  .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 48px; }
+  .testimonial-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 24px; }
+  .stars { color: var(--accent); font-size: 14px; margin-bottom: 16px; letter-spacing: 2px; }
+  .testimonial-text { font-size: 14px; color: #aaa; line-height: 1.7; margin-bottom: 20px; }
+  .testimonial-author { display: flex; align-items: center; gap: 12px; }
+  .avatar { width: 40px; height: 40px; border-radius: 50%; background: #222;
+    display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; color: var(--accent); }
+  .author-info strong { display: block; font-size: 14px; }
+  .author-info span { font-size: 12px; color: #555; }
+
+  /* PROCESS */
+  .process-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1px;
+    background: var(--border); border-radius: 20px; overflow: hidden; margin-top: 48px; }
+  .process-step { background: var(--card-bg); padding: 32px 24px; }
+  .step-num { font-size: 48px; font-weight: 800; color: #1e1e1e; line-height: 1; margin-bottom: 16px; }
+  .step-title { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+  .step-desc { font-size: 13px; color: #666; line-height: 1.6; }
+
+  /* TOOLS */
+  .tools-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 48px; }
+  .tool-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px;
+    padding: 20px 24px; display: flex; align-items: center; gap: 16px; }
+  .tool-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center;
+    justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .tool-info strong { display: block; font-size: 14px; margin-bottom: 2px; }
+  .tool-info span { font-size: 12px; color: #555; }
+  .tool-level { margin-top: 8px; height: 3px; background: #1e1e1e; border-radius: 2px; overflow: hidden; }
+  .tool-level-fill { height: 100%; background: var(--accent); border-radius: 2px; }
+
+  /* FAQ */
+  .faq-list { margin-top: 48px; display: flex; flex-direction: column; gap: 2px; }
+  .faq-item { background: var(--card-bg); border-radius: 16px; overflow: hidden; }
+  .faq-q { padding: 20px 24px; font-size: 15px; font-weight: 500; cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center; }
+  .faq-q::after { content: '+'; font-size: 20px; color: #555; transition: transform .2s; }
+  .faq-item.open .faq-q::after { transform: rotate(45deg); color: var(--accent); }
+  .faq-a { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
+  .faq-item.open .faq-a { max-height: 200px; }
+  .faq-a p { padding: 0 24px 20px; font-size: 14px; color: #777; line-height: 1.7; }
+
+  /* CONTACT */
+  .contact-box { background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px;
+    padding: 56px 48px; text-align: center; margin-top: 48px; }
+  .contact-box h3 { font-size: 36px; font-weight: 700; letter-spacing: -1.5px; margin-bottom: 12px; }
+  .contact-box p { color: #666; margin-bottom: 32px; }
+  .contact-links { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .contact-link { border: 1px solid var(--border); padding: 12px 24px; border-radius: 50px;
+    font-size: 14px; transition: all .2s; display: flex; align-items: center; gap: 8px; }
+  .contact-link:hover { border-color: rgba(200,255,0,0.4); color: var(--accent); }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--border); padding: 40px 20px; text-align: center;
+    font-size: 13px; color: #444; max-width: 1000px; margin: 0 auto; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#work">Work</a>
+  <a href="#process">Process</a>
+  <a href="#tools">Skills</a>
+  <!-- <a href="#faq">FAQ</a> -->
+  <a href="#contact" class="nav-cta">Hire me</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Desiging <br>& Video Editing</h1>
+  <p class="hero-quote">Every cut is intentional. Every frame designed to connect, engage, and leave a lasting impact.</p>
+  <a href="#contact" class="btn-reach-out">Reach Out</a>
+
+  <!-- 3D Scrolling Carousel -->
+  <div class="hero-carousel-wrapper">
+    <div class="hero-carousel-track" id="heroCarousel">
+      <!-- Set 1: Real artwork images -->
+      <div class="carousel-card">
+        <img src="2G9Wu6IKNy8-HD.jpg" alt="Artwork 1">
+        <div class="carousel-card-label">
+          <div class="carousel-card-tag">Digital Art</div>
+          <div>Cyberpunk Cityscape</div>
+        </div>
+      </div>
+      <div class="carousel-card">
+        <img src="8I1fFaXhbF4-HD.jpg" alt="Artwork 2">
+        <div class="carousel-card-label">
+          <div class="carousel-card-tag">Motion Design</div>
+          <div>Let the visuals do the talking</div>
+        </div>
+      </div>
+      <div class="carousel-card">
+        <img src="AecFpnj383A-HD.jpg" alt="Artwork 3">
+        <div class="carousel-card-label">
+          <div class="carousel-card-tag">Brand Film</div>
+          <div>Cinematic storytelling</div>
+        </div>
+      </div>
+      <div class="carousel-card">
+        <img src="CBxG3Xv1-yQ-HD.jpg" alt="Artwork 4">
+        <div class="carousel-card-label">
+          <div class="carousel-card-tag">Social Content</div>
+          <div>Scroll-stopping edits</div>
+        </div>
+      </div>
+      <div class="carousel-card">
+        <img src="CBxG3Xv1-yQ-HD.jpg" alt="Artwork 5">
+        <div class="carousel-card-label">
+          <div class="carousel-card-tag">Identity Design</div>
+          <div>Visual systems that scale</div>
+        </div>
+      </div>
+      <div class="carousel-card">
+        <img src="Cl_JpCSvTpk-HD.jpg" alt="Artwork 6">
+        <div class="carousel-card-label">
+          <div class="carousel-card-tag">YouTube</div>
+          <div>Thumbnail to retention</div>
+        </div>
+      </div>
+
+      <!-- Set 2: Duplicate for seamless infinite scroll -->
+      <div class="carousel-card">
+        <img src="DEa5hfcZyWo-HD.jpg" alt="Artwork 1">
+        <div class="carousel-card-label">
+          <div class="carousel-card-tag">Digital Art</div>
+          <div>Cyberpunk Cityscape</div>
+        </div>
+      </div>
+      <div class="carousel-card">
+        <img src="GV8KGcFqeLc-HD.jpg" alt="Artwork 2">
+        <div class="carousel-card-label">
+          <div class="carousel-card-tag">Motion Design</div>
+          <div>Let the visuals do the talking</div>
+        </div>
+      </div>
+      <div class="carousel-card">
+        <img src="JMObz0Dgq7M-HD.jpg" alt="Artwork 3">
+        <div class="carousel-card-label">
+          <div class="carousel-card-tag">Brand Film</div>
+          <div>Cinematic storytelling</div>
+        </div>
+      </div>
+      <div class="carousel-card">
+        <img src="_a31MiAtCCU-HD.jpg" alt="Artwork 4">
+        <div class="carousel-card-label">
+          <div class="carousel-card-tag">Social Content</div>
+          <div>Scroll-stopping edits</div>
+        </div>
+      </div>
+      <div class="carousel-card">
+        <img src="aEwfpdhnP8o-HD.jpg" alt="Artwork 5">
+        <div class="carousel-card-label">
+          <div class="carousel-card-tag">Identity Design</div>
+          <div>Visual systems that scale</div>
+        </div>
+      </div>
+      <div class="carousel-card">
+        <img src="cIgCv1PA5YE-HD.jpg" alt="Artwork 6">
+        <div class="carousel-card-label">
+          <div class="carousel-card-tag">YouTube</div>
+          <div>Thumbnail to retention</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<section id="work">
+  <div class="section-label">Projects</div>
+  <h2>Crafted to impress,<br><span class="muted-text">built to perform</span></h2>
+
+  <!-- Thumbnail Grid -->
+  <div class="projects-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:48px;">
+
+    <div class="project-card">
+      <img src="2G9Wu6IKNy8-HD.jpg" class="project-thumb" alt="YouTube Thumbnail">
+      <div class="project-overlay">
+        <div class="project-tag">YouTube</div>
+        <div class="project-title">Cologne Ad Parody</div>
+        <div class="project-desc">Nexus Cologne — viral thumbnail design</div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <img src="8I1fFaXhbF4-HD.jpg" class="project-thumb" alt="YouTube Thumbnail">
+      <div class="project-overlay">
+        <div class="project-tag">Thumbnail</div>
+        <div class="project-title">Entities Assemble</div>
+        <div class="project-desc">Gaming — Minecraft action thumbnail</div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <img src="AecFpnj383A-HD.jpg" class="project-thumb" alt="YouTube Thumbnail">
+      <div class="project-overlay">
+        <div class="project-tag">Thumbnail</div>
+        <div class="project-title">Featured Work</div>
+        <div class="project-desc">YouTube — high-retention thumbnail</div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <img src="CBxG3Xv1-yQ-HD.jpg" class="project-thumb" alt="YouTube Thumbnail">
+      <div class="project-overlay">
+        <div class="project-tag">Thumbnail</div>
+        <div class="project-title">Featured Work</div>
+        <div class="project-desc">YouTube — click-worthy design</div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <img src="Cl_JpCSvTpk-HD.jpg" class="project-thumb" alt="YouTube Thumbnail">
+      <div class="project-overlay">
+        <div class="project-tag">Thumbnail</div>
+        <div class="project-title">Featured Work</div>
+        <div class="project-desc">YouTube — bold visual storytelling</div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <img src="DEa5hfcZyWo-HD.jpg" class="project-thumb" alt="YouTube Thumbnail">
+      <div class="project-overlay">
+        <div class="project-tag">Thumbnail</div>
+        <div class="project-title">Featured Work</div>
+        <div class="project-desc">YouTube — scroll-stopping design</div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <img src="GV8KGcFqeLc-HD.jpg" class="project-thumb" alt="YouTube Thumbnail">
+      <div class="project-overlay">
+        <div class="project-tag">Thumbnail</div>
+        <div class="project-title">Featured Work</div>
+        <div class="project-desc">YouTube — engagement-optimised</div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <img src="JMObz0Dgq7M-HD.jpg" class="project-thumb" alt="YouTube Thumbnail">
+      <div class="project-overlay">
+        <div class="project-tag">Thumbnail</div>
+        <div class="project-title">Featured Work</div>
+        <div class="project-desc">YouTube — cinematic thumbnail</div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <img src="_a31MiAtCCU-HD.jpg" class="project-thumb" alt="YouTube Thumbnail">
+      <div class="project-overlay">
+        <div class="project-tag">Thumbnail</div>
+        <div class="project-title">Featured Work</div>
+        <div class="project-desc">YouTube — curiosity-driven design</div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <img src="aEwfpdhnP8o-HD.jpg" class="project-thumb" alt="YouTube Thumbnail">
+      <div class="project-overlay">
+        <div class="project-tag">Thumbnail</div>
+        <div class="project-title">Featured Work</div>
+        <div class="project-desc">YouTube — emotion-led thumbnail</div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <img src="cIgCv1PA5YE-HD.jpg" class="project-thumb" alt="YouTube Thumbnail">
+      <div class="project-overlay">
+        <div class="project-tag">Thumbnail</div>
+        <div class="project-title">Featured Work</div>
+        <div class="project-desc">YouTube — high-contrast design</div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <img src="hiE6RIPe6U4-HD.jpg" class="project-thumb" alt="YouTube Thumbnail">
+      <div class="project-overlay">
+        <div class="project-tag">Thumbnail</div>
+        <div class="project-title">Featured Work</div>
+        <div class="project-desc">YouTube — face-led thumbnail</div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <img src="lRUrCBb9WFs-HD.jpg" class="project-thumb" alt="YouTube Thumbnail">
+      <div class="project-overlay">
+        <div class="project-tag">Thumbnail</div>
+        <div class="project-title">Featured Work</div>
+        <div class="project-desc">YouTube — minimalist design</div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <img src="m7tPX56EYfw-HD.jpg" class="project-thumb" alt="YouTube Thumbnail">
+      <div class="project-overlay">
+        <div class="project-tag">Thumbnail</div>
+        <div class="project-title">Featured Work</div>
+        <div class="project-desc">YouTube — text-forward layout</div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <img src="mqxgP8WlxJQ-HD.jpg" class="project-thumb" alt="YouTube Thumbnail">
+      <div class="project-overlay">
+        <div class="project-tag">Thumbnail</div>
+        <div class="project-title">Featured Work</div>
+        <div class="project-desc">YouTube — dramatic composition</div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <img src="nZ-_Otup-vY-HD.jpg" class="project-thumb" alt="YouTube Thumbnail">
+      <div class="project-overlay">
+        <div class="project-tag">Thumbnail</div>
+        <div class="project-title">Featured Work</div>
+        <div class="project-desc">YouTube — bold typography</div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <img src="nv3T0baKYYM-HD.jpg" class="project-thumb" alt="YouTube Thumbnail">
+      <div class="project-overlay">
+        <div class="project-tag">Thumbnail</div>
+        <div class="project-title">Featured Work</div>
+        <div class="project-desc">YouTube — viral concept layout</div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <img src="pTYEszkqNWU-HD.jpg" class="project-thumb" alt="YouTube Thumbnail">
+      <div class="project-overlay">
+        <div class="project-tag">Thumbnail</div>
+        <div class="project-title">Featured Work</div>
+        <div class="project-desc">YouTube — lifestyle thumbnail</div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <img src="veBE-Mjs-7A-HD.jpg" class="project-thumb" alt="YouTube Thumbnail">
+      <div class="project-overlay">
+        <div class="project-tag">Thumbnail</div>
+        <div class="project-title">Featured Work</div>
+        <div class="project-desc">YouTube — action scene design</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- VIDEO EDITS -->
+  <div style="margin-top:48px;">
+    <div class="section-label" style="margin-bottom:20px;">Video Edits</div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;">
+
+      <div class="project-card" style="aspect-ratio:16/9;">
+        <video class="project-thumb" autoplay muted loop playsinline>
+          <source src="Taaran.mp4" type="video/mp4">
+        </video>
+        <div class="project-overlay">
+          <div class="project-tag">Short Film</div>
+          <div class="project-title">Taaran</div>
+          <div class="project-desc">Cinematic short — colour grade &amp; edit</div>
+        </div>
+      </div>
+
+      <div class="project-card" style="aspect-ratio:16/9;">
+        <video class="project-thumb" autoplay muted loop playsinline>
+          <source src="Gangster Disguised as Dustbin.mp4" type="video/mp4">
+        </video>
+        <div class="project-overlay">
+          <div class="project-tag">Viral Clip</div>
+          <div class="project-title">Gangster Disguised as Dustbin</div>
+          <div class="project-desc">News-style viral edit</div>
+        </div>
+      </div>
+
+      <div class="project-card" style="aspect-ratio:16/9;">
+        <video class="project-thumb" autoplay muted loop playsinline>
+          <source src="He attacked the Wrong Lady Officer.mp4" type="video/mp4">
+        </video>
+        <div class="project-overlay">
+          <div class="project-tag">Viral Clip</div>
+          <div class="project-title">He Attacked the Wrong Lady Officer</div>
+          <div class="project-desc">Dramatic recut — pacing &amp; sound</div>
+        </div>
+      </div>
+
+      <div class="project-card" style="aspect-ratio:16/9;">
+        <video class="project-thumb" autoplay muted loop playsinline>
+          <source src="Police Countered a Stabber.mp4" type="video/mp4">
+        </video>
+        <div class="project-overlay">
+          <div class="project-tag">Viral Clip</div>
+          <div class="project-title">Police Countered a Stabber</div>
+          <div class="project-desc">Tension-driven edit</div>
+        </div>
+      </div>
+
+      <div class="project-card" style="aspect-ratio:16/9;">
+        <video class="project-thumb" autoplay muted loop playsinline>
+          <source src="Police Saved themselves from a Stabber.mp4" type="video/mp4">
+        </video>
+        <div class="project-overlay">
+          <div class="project-tag">Viral Clip</div>
+          <div class="project-title">Police Saved Themselves</div>
+          <div class="project-desc">High-tension action recut</div>
+        </div>
+      </div>
+
+      <div class="project-card" style="aspect-ratio:16/9;">
+        <video class="project-thumb" autoplay muted loop playsinline>
+          <source src="Shopowner Oversmarts Armed Robber.mp4" type="video/mp4">
+        </video>
+        <div class="project-overlay">
+          <div class="project-tag">Viral Clip</div>
+          <div class="project-title">Shopowner Oversmarts Armed Robber</div>
+          <div class="project-desc">Suspense &amp; reveal edit</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" style="padding-top: 0;">
+  <div class="section-label">Other Works</div>
+  <h2>Other<br><span class="muted-text">works &amp; and designs</span></h2>
+
+  <!-- Client testimonials as image grid -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:48px;">
+
+    <div class="project-card" style="aspect-ratio:auto;">
+      <img src="IMG-20250327-WA0012.jpg" class="project-thumb" alt="Client testimonial">
+    </div>
+
+    <div class="project-card" style="aspect-ratio:auto;">
+      <img src="IMG-20250327-WA0013.jpg" class="project-thumb" alt="Client testimonial">
+    </div>
+
+    <div class="project-card" style="aspect-ratio:auto;">
+      <img src="IMG-20250327-WA0014.jpg" class="project-thumb" alt="Client testimonial">
+    </div>
+
+    <div class="project-card" style="aspect-ratio:auto;">
+      <img src="IMG-20250813-WA0001.jpg" class="project-thumb" alt="Client testimonial">
+    </div>
+
+    <div class="project-card" style="aspect-ratio:auto;">
+      <img src="IMG-20250813-WA0002.jpg" class="project-thumb" alt="Client testimonial">
+    </div>
+
+    <div class="project-card" style="aspect-ratio:auto;">
+      <img src="IMG-20250813-WA0003.jpg" class="project-thumb" alt="Client testimonial">
+    </div>
+
+    <div class="project-card" style="aspect-ratio:auto;">
+      <img src="IMG-20250813-WA0004.jpg" class="project-thumb" alt="Client testimonial">
+    </div>
+
+    <div class="project-card" style="aspect-ratio:auto;">
+      <img src="IMG-20250813-WA0005.jpg" class="project-thumb" alt="Client testimonial">
+    </div>
+
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process" style="padding-top: 0;">
+  <div class="section-label">Process</div>
+  <h2>Simple workflow,<br><span class="muted-text">exceptional results</span></h2>
+
+  <div class="process-steps">
+    <div class="process-step">
+      <div class="step-num">01</div>
+      <div class="step-title">Brief & Direction</div>
+      <div class="step-desc">We align on vision, style, and goals. You share footage and references.</div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">02</div>
+      <div class="step-title">Edit & Review</div>
+      <div class="step-desc">I edit with pacing and emotion in mind, then share a draft for feedback.</div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">03</div>
+      <div class="step-title">Final Delivery</div>
+      <div class="step-desc">Polished, color-graded, and delivered on time in all required formats.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools" style="padding-top: 0;">
+  <div class="section-label">Toolkit</div>
+  <h2>Tools &amp;<br><span class="muted-text">expertise</span></h2>
+
+  <div class="tools-list">
+    <div class="tool-card">
+      <div class="tool-icon" style="background:#2a0a00;">🎬</div>
+      <div class="tool-info">
+        <strong>Adobe Premiere Pro</strong>
+        <span>Video Editing</span>
+        <div class="tool-level"><div class="tool-level-fill" style="width:95%"></div></div>
+      </div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-icon" style="background:#00051a;">✨</div>
+      <div class="tool-info">
+        <strong>After Effects</strong>
+        <span>Motion Graphics & VFX</span>
+        <div class="tool-level"><div class="tool-level-fill" style="width:90%"></div></div>
+      </div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-icon" style="background:#0a001a;">🎨</div>
+      <div class="tool-info">
+        <strong>Figma</strong>
+        <span>UI / Graphic Design</span>
+        <div class="tool-level"><div class="tool-level-fill" style="width:85%"></div></div>
+      </div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-icon" style="background:#001a0a;">📸</div>
+      <div class="tool-info">
+        <strong>Photoshop</strong>
+        <span>Photo Editing & Thumbnails</span>
+        <div class="tool-level"><div class="tool-level-fill" style="width:88%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ
+<section id="faq" style="padding-top: 0;">
+  <div class="section-label">FAQ</div>
+  <h2>Frequently<br><span class="muted-text">asked questions</span></h2>
+
+  <div class="faq-list">
+    <div class="faq-item open">
+      <div class="faq-q">What types of projects do you take on?</div>
+      <div class="faq-a"><p>Brand films, YouTube edits, social media reels, motion graphics, logo animations, and UI/graphic design work. If it needs to look great on screen, I can help.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How long does a typical project take?</div>
+      <div class="faq-a"><p>Short-form content (Reels, TikToks) typically takes 2–3 days. Longer brand videos or design projects can take 5–10 days depending on scope.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How many revisions do you offer?</div>
+      <div class="faq-a"><p>I offer up to 3 rounds of revisions on every project to ensure you're completely happy with the final result.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How do I share files with you?</div>
+      <div class="faq-a"><p>You can share footage via Google Drive, WeTransfer, or Dropbox. I'll send back the final files in your preferred format and resolution.</p></div>
+    </div>
+  </div>
+</section> -->
+
+<!-- CONTACT -->
+<section id="contact" style="padding-top: 0;">
+  <div class="contact-box">
+    <h3>Let's create<br>something great</h3>
+    <p>Have a project in mind? I'll respond asap.</p>
+    <div class="contact-links">
+      <!-- Replace href values with Rupankar's actual links -->
+      <a href="mailto:dasrupankar40@gmail.com" class="contact-link">✉ Email me</a>
+      <!-- <a href="https://instagram.com/rupankar" target="_blank" class="contact-link">📷 Instagram</a>
+      <a href="https://youtube.com/@rupankar" target="_blank" class="contact-link">▶ YouTube</a> -->
+      <a href="https://discordapp.com/users/@epic.ronn" target="_blank" class="contact-link">💬 Discord</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Rupankar. All rights reserved.</p>
+</footer>
+
+<script>
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.parentElement;
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    });
+  });
+</script>
+
+</body>
+</html>
