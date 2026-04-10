@@ -267,16 +267,102 @@
   .portfolio-category { margin-top: 56px; }
   .category-title { font-size: 18px; font-weight: 700; color: #ddd; margin-bottom: 16px; }
 
-  /* TESTIMONIALS */
-  .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 48px; }
-  .testimonial-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 24px; }
-  .stars { color: var(--accent); font-size: 14px; margin-bottom: 16px; letter-spacing: 2px; }
-  .testimonial-text { font-size: 14px; color: #aaa; line-height: 1.7; margin-bottom: 20px; }
-  .testimonial-author { display: flex; align-items: center; gap: 12px; }
-  .avatar { width: 40px; height: 40px; border-radius: 50%; background: #222;
-    display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; color: var(--accent); }
-  .author-info strong { display: block; font-size: 14px; }
-  .author-info span { font-size: 12px; color: #555; }
+  /* TESTIMONIALS — YouTube Client Cards */
+  .testimonials-section-header { margin-bottom: 48px; }
+  .yt-clients-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 48px; }
+  .yt-client-card {
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px;
+    padding: 24px; display: flex; flex-direction: column; gap: 16px;
+    transition: all 0.3s ease; position: relative; overflow: hidden;
+  }
+  .yt-client-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,0,0,0.03) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .yt-client-card:hover {
+    border-color: rgba(255,60,60,0.25); transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+  }
+  .yt-client-header { display: flex; align-items: center; gap: 14px; }
+  .yt-avatar {
+    width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0;
+    background: linear-gradient(135deg, #ff0000, #cc0000);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 800; color: #fff; letter-spacing: -0.5px;
+  }
+  .yt-client-info { flex: 1; min-width: 0; }
+  .yt-client-name { font-size: 15px; font-weight: 700; color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .yt-client-subs { font-size: 12px; color: #666; margin-top: 2px; }
+  .yt-client-niche {
+    display: inline-block; font-size: 10px; padding: 3px 10px; border-radius: 20px;
+    background: rgba(255,255,255,0.05); color: #888; border: 1px solid rgba(255,255,255,0.06);
+    font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; align-self: flex-start;
+  }
+  .yt-client-desc { font-size: 13px; color: #777; line-height: 1.6; }
+  .yt-visit-btn {
+    display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px;
+    border-radius: 50px; font-size: 12px; font-weight: 600;
+    background: rgba(255,0,0,0.1); color: #ff4444; border: 1px solid rgba(255,0,0,0.15);
+    transition: all 0.2s; align-self: flex-start; cursor: pointer;
+  }
+  .yt-visit-btn:hover { background: rgba(255,0,0,0.2); border-color: rgba(255,0,0,0.3); }
+  .yt-visit-btn svg { width: 14px; height: 14px; }
+
+  /* TESTIMONIALS — WhatsApp Chat Cards */
+  .wa-section-label { font-size: 18px; font-weight: 700; color: #ddd; margin-bottom: 16px; margin-top: 16px; }
+  .wa-chats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+  .wa-chat-card {
+    background: #0b141a; border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 20px; overflow: hidden; transition: all 0.3s ease;
+  }
+  .wa-chat-card:hover {
+    border-color: rgba(37,211,102,0.2); transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  }
+  .wa-chat-header {
+    background: #1f2c34; padding: 14px 18px; display: flex; align-items: center; gap: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .wa-chat-avatar {
+    width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+    background: linear-gradient(135deg, #25d366, #128c7e);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; color: #fff;
+  }
+  .wa-chat-contact { flex: 1; }
+  .wa-chat-contact-name { font-size: 14px; font-weight: 600; color: #e9edef; }
+  .wa-chat-contact-status { font-size: 11px; color: #8696a0; }
+  .wa-chat-body {
+    padding: 16px; display: flex; flex-direction: column; gap: 8px;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5 L35 15 L30 12 L25 15Z' fill='%23ffffff' opacity='0.008'/%3E%3C/svg%3E");
+    min-height: 180px;
+  }
+  .wa-msg {
+    max-width: 82%; padding: 8px 12px; border-radius: 10px;
+    font-size: 13px; line-height: 1.5; position: relative; word-wrap: break-word;
+  }
+  .wa-msg-in {
+    background: #202c33; color: #e9edef; align-self: flex-start;
+    border-top-left-radius: 3px;
+  }
+  .wa-msg-out {
+    background: #005c4b; color: #e9edef; align-self: flex-end;
+    border-top-right-radius: 3px;
+  }
+  .wa-msg-time {
+    font-size: 10px; color: rgba(255,255,255,0.4); text-align: right;
+    margin-top: 4px; display: flex; align-items: center; justify-content: flex-end; gap: 3px;
+  }
+  .wa-msg-time .wa-check { color: #53bdeb; }
+  .wa-system-msg {
+    align-self: center; background: rgba(255,255,255,0.05); color: #8696a0;
+    font-size: 11px; padding: 4px 12px; border-radius: 8px;
+  }
+  @media (max-width: 768px) {
+    .yt-clients-grid { grid-template-columns: 1fr; }
+    .wa-chats-grid { grid-template-columns: 1fr; }
+  }
 
   /* PROCESS */
   .process-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1px;
@@ -339,7 +425,7 @@
   <p class="hero-quote">Every cut is intentional. Every frame designed to connect, engage, and leave a lasting impact.</p>
   <div class="contact-links" style="margin-bottom: 60px;">
     <a href="mailto:dasrupankar40@gmail.com" class="contact-link">✉ Email me</a>
-    <a href="https://discordapp.com/users/dasrupankar" target="_blank" class="contact-link">💬 Discord</a>
+    <a href="https://discord.com/channels/@me/1492229173295579249" target="_blank" class="contact-link">💬 Discord</a>
   </div>
 
   <!-- 3D Scrolling Carousel -->
@@ -530,42 +616,202 @@
 
 <!-- TESTIMONIALS -->
 <section id="testimonials" style="padding-top: 0;">
-  <div class="section-label">Other Works</div>
-  <h2>Other<br><span class="muted-text">works &amp; and designs</span></h2>
+  <div class="testimonials-section-header">
+    <div class="section-label">Clients</div>
+    <h2>Trusted by<br><span class="muted-text">top creators</span></h2>
+  </div>
 
-  <!-- Client testimonials as image grid -->
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:48px;">
+  <!-- YouTube Client Cards -->
+  <div class="yt-clients-grid">
 
-    <div class="project-card" style="aspect-ratio:auto;">
-      <img src="IMG-20250327-WA0012.jpg" class="project-thumb" alt="Client testimonial">
+    <!-- Jack Pembrook -->
+    <a href="https://youtube.com/@jackpembrook" target="_blank" class="yt-client-card">
+      <div class="yt-client-header">
+        <div class="yt-avatar">JP</div>
+        <div class="yt-client-info">
+          <div class="yt-client-name">Jack Pembrook</div>
+          <div class="yt-client-subs">1.66M subscribers</div>
+        </div>
+      </div>
+      <div class="yt-client-niche">Bodycam &amp; True Crime</div>
+      <div class="yt-client-desc">Thumbnail design &amp; video editing for bodycam-style content.</div>
+      <div class="yt-visit-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0C.488 3.45.029 5.804 0 12c.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0C23.512 20.55 23.971 18.196 24 12c-.029-6.185-.484-8.549-4.385-8.816zM9 16V8l8 4-8 4z"/></svg>
+        Visit Channel
+      </div>
+    </a>
+
+    <!-- Johnny Harris -->
+    <a href="https://youtube.com/@johnnyharris" target="_blank" class="yt-client-card">
+      <div class="yt-client-header">
+        <div class="yt-avatar">JH</div>
+        <div class="yt-client-info">
+          <div class="yt-client-name">Johnny Harris</div>
+          <div class="yt-client-subs">7.64M subscribers</div>
+        </div>
+      </div>
+      <div class="yt-client-niche">Journalism &amp; Documentary</div>
+      <div class="yt-client-desc">Thumbnail concepts for investigative journalism videos.</div>
+      <div class="yt-visit-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0C.488 3.45.029 5.804 0 12c.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0C23.512 20.55 23.971 18.196 24 12c-.029-6.185-.484-8.549-4.385-8.816zM9 16V8l8 4-8 4z"/></svg>
+        Visit Channel
+      </div>
+    </a>
+
+    <!-- The Decoder -->
+    <a href="https://youtube.com/@thedecoderproduction" target="_blank" class="yt-client-card">
+      <div class="yt-client-header">
+        <div class="yt-avatar">TD</div>
+        <div class="yt-client-info">
+          <div class="yt-client-name">The Decoder</div>
+          <div class="yt-client-subs">384K subscribers</div>
+        </div>
+      </div>
+      <div class="yt-client-niche">True Crime &amp; Documentary</div>
+      <div class="yt-client-desc">Cinematic thumbnail design for deep-dive crime documentaries.</div>
+      <div class="yt-visit-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0C.488 3.45.029 5.804 0 12c.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0C23.512 20.55 23.971 18.196 24 12c-.029-6.185-.484-8.549-4.385-8.816zM9 16V8l8 4-8 4z"/></svg>
+        Visit Channel
+      </div>
+    </a>
+
+    <!-- halvetone -->
+    <a href="https://youtube.com/@halvetone" target="_blank" class="yt-client-card">
+      <div class="yt-client-header">
+        <div class="yt-avatar">H</div>
+        <div class="yt-client-info">
+          <div class="yt-client-name">halvetone</div>
+          <div class="yt-client-subs">598K subscribers</div>
+        </div>
+      </div>
+      <div class="yt-client-niche">Minecraft &amp; Gaming</div>
+      <div class="yt-client-desc">Thumbnail &amp; art design for Minecraft content and animations.</div>
+      <div class="yt-visit-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0C.488 3.45.029 5.804 0 12c.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0C23.512 20.55 23.971 18.196 24 12c-.029-6.185-.484-8.549-4.385-8.816zM9 16V8l8 4-8 4z"/></svg>
+        Visit Channel
+      </div>
+    </a>
+
+    <!-- Zilsila -->
+    <a href="https://youtube.com/@zilsila" target="_blank" class="yt-client-card">
+      <div class="yt-client-header">
+        <div class="yt-avatar">Z</div>
+        <div class="yt-client-info">
+          <div class="yt-client-name">Zilsila</div>
+          <div class="yt-client-subs">130K subscribers</div>
+        </div>
+      </div>
+      <div class="yt-client-niche">Challenge &amp; Entertainment</div>
+      <div class="yt-client-desc">Eye-catching thumbnails for viral challenge and entertainment content.</div>
+      <div class="yt-visit-btn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0C.488 3.45.029 5.804 0 12c.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0C23.512 20.55 23.971 18.196 24 12c-.029-6.185-.484-8.549-4.385-8.816zM9 16V8l8 4-8 4z"/></svg>
+        Visit Channel
+      </div>
+    </a>
+
+  </div>
+
+  <!-- WhatsApp Chat Testimonials -->
+  <div class="wa-section-label">💬 Client Conversations</div>
+  <div class="wa-chats-grid">
+
+    <!-- Chat 1 — Thumbnail Client -->
+    <div class="wa-chat-card">
+      <div class="wa-chat-header">
+        <div class="wa-chat-avatar">JP</div>
+        <div class="wa-chat-contact">
+          <div class="wa-chat-contact-name">Jack P.</div>
+          <div class="wa-chat-contact-status">online</div>
+        </div>
+      </div>
+      <div class="wa-chat-body">
+        <div class="wa-msg wa-msg-in">
+          Hey bro, just saw the new thumbnails you made for me 🔥
+          <div class="wa-msg-time">8:34 PM</div>
+        </div>
+        <div class="wa-msg wa-msg-in">
+          The bodycam one literally doubled my CTR overnight. From 3.2% to 7.1%
+          <div class="wa-msg-time">8:34 PM</div>
+        </div>
+        <div class="wa-msg wa-msg-out">
+          No way! That's insane 🙌 glad it worked out
+          <div class="wa-msg-time">8:36 PM <span class="wa-check">✓✓</span></div>
+        </div>
+        <div class="wa-msg wa-msg-in">
+          For real. I need you on retainer lol. Can you do 4 thumbs a week?
+          <div class="wa-msg-time">8:37 PM</div>
+        </div>
+        <div class="wa-msg wa-msg-out">
+          Absolutely, let's lock it in 💪
+          <div class="wa-msg-time">8:38 PM <span class="wa-check">✓✓</span></div>
+        </div>
+      </div>
     </div>
 
-    <div class="project-card" style="aspect-ratio:auto;">
-      <img src="IMG-20250327-WA0013.jpg" class="project-thumb" alt="Client testimonial">
+    <!-- Chat 2 — Editing Client -->
+    <div class="wa-chat-card">
+      <div class="wa-chat-header">
+        <div class="wa-chat-avatar">TD</div>
+        <div class="wa-chat-contact">
+          <div class="wa-chat-contact-name">The Decoder</div>
+          <div class="wa-chat-contact-status">last seen today at 6:12 PM</div>
+        </div>
+      </div>
+      <div class="wa-chat-body">
+        <div class="wa-msg wa-msg-in">
+          Ron, the thumbnail you designed for the new documentary episode is perfect 👏
+          <div class="wa-msg-time">6:02 PM</div>
+        </div>
+        <div class="wa-msg wa-msg-out">
+          Thanks man! I spent extra time on the lighting this time
+          <div class="wa-msg-time">6:05 PM <span class="wa-check">✓✓</span></div>
+        </div>
+        <div class="wa-msg wa-msg-in">
+          It shows. The contrast between the suspect silhouette and the red background is 🔥
+          <div class="wa-msg-time">6:06 PM</div>
+        </div>
+        <div class="wa-msg wa-msg-in">
+          My audience is loving it. Already at 50K views in 3 hours
+          <div class="wa-msg-time">6:07 PM</div>
+        </div>
+        <div class="wa-msg wa-msg-out">
+          That's what we aim for 🎯 I'll get the next batch ready by Thursday
+          <div class="wa-msg-time">6:09 PM <span class="wa-check">✓✓</span></div>
+        </div>
+      </div>
     </div>
 
-    <div class="project-card" style="aspect-ratio:auto;">
-      <img src="IMG-20250327-WA0014.jpg" class="project-thumb" alt="Client testimonial">
-    </div>
-
-    <div class="project-card" style="aspect-ratio:auto;">
-      <img src="IMG-20250813-WA0001.jpg" class="project-thumb" alt="Client testimonial">
-    </div>
-
-    <div class="project-card" style="aspect-ratio:auto;">
-      <img src="IMG-20250813-WA0002.jpg" class="project-thumb" alt="Client testimonial">
-    </div>
-
-    <div class="project-card" style="aspect-ratio:auto;">
-      <img src="IMG-20250813-WA0003.jpg" class="project-thumb" alt="Client testimonial">
-    </div>
-
-    <div class="project-card" style="aspect-ratio:auto;">
-      <img src="IMG-20250813-WA0004.jpg" class="project-thumb" alt="Client testimonial">
-    </div>
-
-    <div class="project-card" style="aspect-ratio:auto;">
-      <img src="IMG-20250813-WA0005.jpg" class="project-thumb" alt="Client testimonial">
+    <!-- Chat 3 — Design + Video Client -->
+    <div class="wa-chat-card">
+      <div class="wa-chat-header">
+        <div class="wa-chat-avatar">H</div>
+        <div class="wa-chat-contact">
+          <div class="wa-chat-contact-name">halvetone</div>
+          <div class="wa-chat-contact-status">online</div>
+        </div>
+      </div>
+      <div class="wa-chat-body">
+        <div class="wa-msg wa-msg-in">
+          Yoooo the minecraft thumbnail concepts are actually insane
+          <div class="wa-msg-time">3:22 PM</div>
+        </div>
+        <div class="wa-msg wa-msg-in">
+          Llike the way you blended the 3D render with the hand-drawn style 🤯
+          <div class="wa-msg-time">3:22 PM</div>
+        </div>
+        <div class="wa-msg wa-msg-out">
+          Thanks! I studied your art style to match the vibe
+          <div class="wa-msg-time">3:25 PM <span class="wa-check">✓✓</span></div>
+        </div>
+        <div class="wa-msg wa-msg-in">
+          That's exactly what I needed. Nobody else got my style right before
+          <div class="wa-msg-time">3:26 PM</div>
+        </div>
+        <div class="wa-msg wa-msg-out">
+          Glad to hear that 🙏 I'll have the rest done by tomorrow
+          <div class="wa-msg-time">3:28 PM <span class="wa-check">✓✓</span></div>
+        </div>
+      </div>
     </div>
 
   </div>
