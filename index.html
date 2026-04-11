@@ -989,6 +989,39 @@
 
     selectedCards.forEach(({ category, file }) => track.appendChild(createCard(category, file)));
     selectedCards.forEach(({ category, file }) => track.appendChild(createCard(category, file)));
+
+    // ── Testimonial Avatar Loader ──
+    // Tries local logos first (assets/icons/{handle}.jpg), then falls back to a letter avatar
+    const channelLogos = {
+      '@jackpembrook': 'assets/icons/jackpembrook.jpg',
+      '@johnnyharris': 'assets/icons/johnnyharris.jpg',
+      '@thedecoderproduction': 'assets/icons/thedecoderproduction.jpg',
+      '@halvetone': 'assets/icons/halvetone.jpg',
+      '@zilsila': 'assets/icons/zilsila.jpg'
+    };
+
+    document.querySelectorAll('.testimonial-avatar img').forEach(img => {
+      const channel = img.dataset.channel;
+      const fallbackText = img.dataset.fallback || '?';
+      const localPath = channelLogos[channel];
+
+      if (localPath) {
+        img.src = localPath;
+      }
+
+      img.onerror = function() {
+        // Replace with a styled letter avatar
+        const parent = this.parentElement;
+        const accentEl = parent.closest('.testimonial-card').querySelector('.testimonial-accent');
+        const color = accentEl ? accentEl.style.background : '#7b8cde';
+
+        parent.innerHTML = `<div style="
+          width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+          background:${color};color:#fff;font-size:20px;font-weight:800;
+          letter-spacing:-0.5px;border-radius:50%;
+        ">${fallbackText}</div>`;
+      };
+    });
   });
 </script>
 
